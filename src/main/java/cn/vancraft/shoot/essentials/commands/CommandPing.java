@@ -21,6 +21,8 @@ package cn.vancraft.shoot.essentials.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
+
+import cn.vancraft.shoot.essentials.utils.FormatUtil;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 
@@ -59,13 +61,7 @@ public class CommandPing extends EssentialsCommand {
     }
 
     private int textSubExecutor(CommandContext<ServerCommandSource> ctx) {
-        ctx.getSource().sendFeedback(new LiteralText(replaceColor(getString(ctx, "text"))), false);
+        ctx.getSource().sendFeedback(new LiteralText(FormatUtil.replaceFormat(getString(ctx, "text"))), false);
         return Command.SINGLE_SUCCESS;
-    }
-
-    private String replaceColor(String raw) {
-        //TODO 加入颜色解析
-        String parsed = raw;
-        return parsed;
     }
 }
