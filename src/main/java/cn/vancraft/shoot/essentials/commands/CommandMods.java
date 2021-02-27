@@ -63,16 +63,17 @@ public class CommandMods extends EssentialsCommand {
     private int mainCommandExecutor(CommandContext<ServerCommandSource> ctx) {
         Collection<ModContainer> mods = FabricLoader.getInstance().getAllMods();
         int modCount = mods.size();
-        String feedbackString = String.format("Mods (%d): ", modCount);
+        StringBuilder feedback = new StringBuilder();
+        feedback.append(String.format("Mods (%d): ", modCount));
         int i = 0;
         for (ModContainer mod : mods) {
             ModMetadata modMeta = mod.getMetadata();
-            feedbackString += String.format("§a%s§r", modMeta.getName());
+            feedback.append(String.format("§a%s§r", modMeta.getName()));
             i++;
             if (i < mods.size())
-                feedbackString += "\n";
+                feedback.append("\n");
         }
-        ctx.getSource().sendFeedback(new LiteralText(feedbackString), false);
+        ctx.getSource().sendFeedback(new LiteralText(feedback.toString()), false);
         return Command.SINGLE_SUCCESS;
     }
 
@@ -84,23 +85,23 @@ public class CommandMods extends EssentialsCommand {
 
         ModMetadata modMeta = FabricLoader.getInstance().getModContainer(inputId).get().getMetadata();
 
-        String modInfo = new String();
-        modInfo += String.format("Mod: §a%s§r (§a%s§r)\n", modMeta.getName(), modMeta.getId());
-        modInfo += String.format("版本: §a%s§r\n", modMeta.getVersion());
-        modInfo += "作者: ";
+        StringBuilder modInfo = new StringBuilder();
+        modInfo.append(String.format("Mod: §a%s§r (§a%s§r)\n", modMeta.getName(), modMeta.getId()));
+        modInfo.append(String.format("版本: §a%s§r\n", modMeta.getVersion()));
+        modInfo.append("作者: ");
         Collection<Person> authors = modMeta.getAuthors();
         int i = 0;
         for (Person author : authors) {
-            modInfo += String.format("§a%s§r", author.getName());
+            modInfo.append(String.format("§a%s§r", author.getName()));
             i++;
             if (i < authors.size())
-                modInfo += "§r , ";
+                modInfo.append("§r , ");
         }
-        modInfo += "\n";
-        modInfo += String.format("简介: §a%s§r\n", modMeta.getDescription());
-        modInfo += String.format("官网: §a%s§r", modMeta.getContact().get("homepage").isPresent() ? modMeta.getContact().get("homepage").get() : "");
+        modInfo.append("\n");
+        modInfo.append(String.format("简介: §a%s§r\n", modMeta.getDescription()));
+        modInfo.append(String.format("官网: §a%s§r", modMeta.getContact().get("homepage").isPresent() ? modMeta.getContact().get("homepage").get() : ""));
 
-        ctx.getSource().sendFeedback(new LiteralText(modInfo), false);
+        ctx.getSource().sendFeedback(new LiteralText(modInfo.toString()), false);
         return Command.SINGLE_SUCCESS;
     }
 
