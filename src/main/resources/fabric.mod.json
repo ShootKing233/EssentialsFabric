@@ -3,20 +3,24 @@
   "id": "essentials",
   "version": "${version}",
   "name": "Essentials",
-  "description": "",
+  "description": "A Fabric Mod to add some commands of the Spigot plugin Essentials.",
   "authors": ["ShootKing233"],
-  "contact": {},
+  "contact": {
+    "email": "shootking233@outlook.com",
+    "homepage": "http://shoot.vancraft.cn/ess/",
+    "issues": "https://github.com/ShootKing233/EssentialsFabric/issues",
+    "sources": "https://github.com/ShootKing233/EssentialsFabric"
+  },
   "license": "GPL-3.0",
-  "icon": "assets/essentialsfabric/icon.png",
-  "environment": "server",
+  "icon": "assets/essentials/icon.png",
+  "environment": "*",
   "entrypoints": {
-    "server": [
+    "main": [
       "cn.vancraft.shoot.essentials.EssentialsFabric"
     ]
   },
   "depends": {
-    "fabricloader": ">=0.11.1",
-    "fabric": "*",
-    "minecraft": "1.17-alpha.21.7.a"
+    "fabricloader": ">=0.7.1",
+    "minecraft": ">=1.14"
   }
 }

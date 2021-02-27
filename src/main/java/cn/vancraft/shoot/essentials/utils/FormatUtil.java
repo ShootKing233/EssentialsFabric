@@ -53,11 +53,13 @@ public final class FormatUtil {
         }
     };
     public static final Pattern REPLACE_ALL = Pattern.compile("(&)?&([0-9a-fk-orA-FK-OR])");
+    public static final Pattern REPLACE_ALL_WITH_RGB = Pattern.compile("(&)?&#([0-9a-fA-F]{6})");
 
-    public static String replaceColor(final String raw, final Set<Character> supported) {
+    private static String replaceColor(final String raw, final Set<Character> supported) {
         final StringBuffer buffer = new StringBuffer();
         final Matcher matcher = REPLACE_ALL.matcher(raw);
-        loop: while (matcher.find()) {
+        loop:
+        while (matcher.find()) {
             final boolean isEscaped = matcher.group(1) != null;
             if (!isEscaped) {
                 final char code = matcher.group(2).toLowerCase(Locale.ROOT).charAt(0);
@@ -71,7 +73,7 @@ public final class FormatUtil {
             matcher.appendReplacement(buffer, "&$2");
         }
         matcher.appendTail(buffer);
-        return matcher.toString();
+        return buffer.toString();
     }
 
     public static String replaceFormat(final String raw) {

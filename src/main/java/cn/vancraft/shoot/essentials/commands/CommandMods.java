@@ -28,6 +28,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
+import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
@@ -69,7 +70,7 @@ public class CommandMods extends EssentialsCommand {
             feedbackString += String.format("§a%s§r", modMeta.getName());
             i++;
             if (i < mods.size())
-                feedbackString += ", ";
+                feedbackString += "\n";
         }
         ctx.getSource().sendFeedback(new LiteralText(feedbackString), false);
         return Command.SINGLE_SUCCESS;
@@ -82,7 +83,24 @@ public class CommandMods extends EssentialsCommand {
             throw new SimpleCommandExceptionType(new LiteralText(String.format("无法找到ModID为%s的Mod!", inputId))).create();
 
         ModMetadata modMeta = FabricLoader.getInstance().getModContainer(inputId).get().getMetadata();
-        ctx.getSource().sendFeedback(new LiteralText(modMeta.toString()), false);
+
+        String modInfo = new String();
+        modInfo += String.format("Mod: §a%s§r (§a%s§r)\n", modMeta.getName(), modMeta.getId());
+        modInfo += String.format("版本: §a%s§r\n", modMeta.getVersion());
+        modInfo += "作者: ";
+        Collection<Person> authors = modMeta.getAuthors();
+        int i = 0;
+        for (Person author : authors) {
+            modInfo += String.format("§a%s§r", author.getName());
+            i++;
+            if (i < authors.size())
+                modInfo += "§r , ";
+        }
+        modInfo += "\n";
+        modInfo += String.format("简介: §a%s§r\n", modMeta.getDescription());
+        modInfo += String.format("官网: §a%s§r", modMeta.getContact().get("homepage").isPresent() ? modMeta.getContact().get("homepage").get() : "");
+
+        ctx.getSource().sendFeedback(new LiteralText(modInfo), false);
         return Command.SINGLE_SUCCESS;
     }
 

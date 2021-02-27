@@ -20,15 +20,16 @@ package cn.vancraft.shoot.essentials;
 
 import cn.vancraft.shoot.essentials.commands.CommandMods;
 import cn.vancraft.shoot.essentials.commands.CommandPing;
-import net.fabricmc.api.DedicatedServerModInitializer;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class EssentialsFabric implements DedicatedServerModInitializer {
+public class EssentialsFabric implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
+
     @Override
-    public void onInitializeServer() {
+    public void onInitialize() {
         LOGGER.info("正在加载Essentials VERSION");
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
             LOGGER.debug("正在注册命令ping");
